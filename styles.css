@@ -173,7 +173,7 @@ h1, h2, h3 {
 }
 
 .sheet-content {
-    padding: 8px 24px 40px;
+    padding: 8px 24px calc(40px + env(safe-area-inset-bottom));
 }
 
 /* Floating Elements */

@@ -81,6 +81,9 @@ const app = {
                 { name: 'School', latlng: [-26.120, 28.075], type: 'school', status: 'passed' },
                 { name: 'Zara Nkosi', latlng: [-26.112, 28.062], type: 'pickup', status: 'upcoming' },
                 { name: 'End', latlng: [-26.105, 28.050], type: 'depot', status: 'upcoming' }
+            ],
+            aftercare: [
+                { name: 'Greenfield Aftercare', latlng: [-26.118, 28.072], type: 'center', status: 'arrived', address: '12 Aftercare Way, Sandton' }
             ]
         },
 
@@ -295,6 +298,22 @@ const app = {
             app.state.tripType = type;
             document.getElementById('btn-am').classList.toggle('active', type === 'morning');
             document.getElementById('btn-pm').classList.toggle('active', type === 'afternoon');
+            document.getElementById('btn-ac').classList.toggle('active', type === 'aftercare');
+            
+            // Toggle UI Cards
+            const isAC = type === 'aftercare';
+            document.getElementById('driver-info').classList.toggle('hidden', isAC);
+            document.getElementById('aftercare-info').classList.toggle('hidden', !isAC);
+            
+            // Update Status Badge if in Aftercare
+            if (isAC) {
+                const badge = document.getElementById('scan-status-badge');
+                badge.style.background = '#ecfdf5';
+                badge.style.color = '#059669';
+                badge.innerHTML = '<i class="ph-fill ph-house-line"></i> Secure at Aftercare';
+                document.getElementById('status-text').innerText = "Safe in Aftercare Section";
+            }
+
             this.renderTrip();
         },
 
