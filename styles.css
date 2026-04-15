@@ -88,7 +88,7 @@ h1, h2, h3 {
 .btn:active { transform: scale(0.96); }
 
 .btn-primary {
-    background-color: var(--black);
+    background-color: var(--accent);
     color: var(--white);
 }
 
@@ -221,7 +221,8 @@ h1, h2, h3 {
 }
 
 .dark-theme h1, .dark-theme h2, .dark-theme h3 { color: var(--white); }
-.dark-theme .btn-primary { background-color: var(--white); color: var(--black); }
+.dark-theme .btn-primary { background-color: var(--accent); color: var(--white); }
+.dark-theme .btn-outline { background-color: transparent; border-color: var(--white); color: var(--white); }
 .dark-theme .input-field { border-color: var(--white); background: transparent; color: white; }
 .dark-theme .input-label { color: var(--white); }
 
@@ -247,7 +248,7 @@ h1, h2, h3 {
 }
 
 .pill-toggle button.active {
-    background: var(--black);
+    background: var(--green);
     color: var(--white);
 }
 
