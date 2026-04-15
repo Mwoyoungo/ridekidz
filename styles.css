@@ -1,0 +1,264 @@
+/* RideKidz Design System - Uber Inspired (Human Developed) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Brand Colors (Preserved as requested) */
+    --accent: #ff6b35; 
+    --purple: #6c4ef2; 
+    --yellow: #ffd60a; 
+    --green: #22c55e;  
+    
+    /* Uber Palette Foundations */
+    --black: #000000;
+    --white: #ffffff;
+    --gray-hover: #e2e2e2;
+    --gray-bg: #f3f3f3;
+    --gray-chip: #efefef;
+    --gray-text: #4b4b4b;
+    --gray-muted: #afafaf;
+    
+    /* Layout Tokens */
+    --radius-pill: 999px;
+    --radius-card: 12px;
+    --radius-input: 8px;
+    
+    /* Shadows */
+    --shadow-subtle: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+    --shadow-medium: rgba(0, 0, 0, 0.16) 0px 4px 16px;
+    --shadow-floating: rgba(0, 0, 0, 0.16) 0px 2px 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--black);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+#app-root {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background-color: var(--white);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: 700;
+    line-height: 1.23;
+    letter-spacing: -0.02em;
+    color: var(--black);
+}
+
+.brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+/* Buttons (Pill-shaped strictly) */
+.btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background-color: var(--purple);
+    color: var(--white);
+}
+
+.btn-accent {
+    background-color: var(--accent);
+    color: var(--white);
+}
+
+.btn-outline {
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    color: var(--black);
+}
+
+.btn-chip {
+    background-color: var(--gray-chip);
+    color: var(--black);
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+/* Input Fields */
+.input-group { margin-bottom: 24px; }
+.input-label { 
+    display: block; 
+    font-size: 14px; 
+    font-weight: 700; 
+    color: var(--black); 
+    margin-bottom: 8px; 
+}
+.input-wrapper { position: relative; display: flex; align-items: center; }
+.input-icon { position: absolute; left: 16px; font-size: 20px; color: var(--black); }
+.input-field {
+    width: 100%; 
+    padding: 14px 16px; 
+    border-radius: var(--radius-input); 
+    border: 1px solid var(--black); 
+    background: var(--white); 
+    color: var(--black);
+    font-family: 'Inter', sans-serif; 
+    font-size: 16px; 
+    font-weight: 400; 
+    outline: none;
+    transition: border-width 0.1s;
+}
+.input-field:focus { border-width: 2.5px; }
+.input-field-with-icon { padding-left: 48px; }
+
+/* Cards */
+.card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    padding: 24px;
+}
+
+/* Bottom Sheet */
+.bottom-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    border-radius: 24px 24px 0 0;
+    z-index: 100;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
+}
+
+.sheet-handle {
+    width: 48px;
+    height: 4px;
+    background: var(--gray-hover);
+    border-radius: 2px;
+    margin: 12px auto;
+}
+
+.sheet-content {
+    padding: 8px 24px 40px;
+}
+
+/* Floating Elements */
+.floating-card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-medium);
+    padding: 16px;
+    pointer-events: auto;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: var(--shadow-floating);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--black);
+    cursor: pointer;
+    border: none;
+}
+
+/* Screen Layouts */
+.screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.hidden { display: none !important; }
+
+/* Animations */
+@keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
+
+/* Dark Sections (Footer, Splash) */
+.dark-theme {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.dark-theme h1, .dark-theme h2, .dark-theme h3 { color: var(--white); }
+.dark-theme .btn-primary { background-color: var(--white); color: var(--black); }
+.dark-theme .input-field { border-color: var(--white); background: transparent; color: white; }
+.dark-theme .input-label { color: var(--white); }
+
+/* Toggle Buttons */
+.pill-toggle {
+    background: var(--gray-chip);
+    border-radius: var(--radius-pill);
+    padding: 4px;
+    display: flex;
+    gap: 4px;
+}
+
+.pill-toggle button {
+    padding: 6px 20px;
+    border-radius: var(--radius-pill);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    color: var(--gray-text);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pill-toggle button.active {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* Progress Indicators */
+.step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gray-chip);
+}
+
+.step-dot.active {
+    background: var(--accent);
+}

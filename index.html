@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideKidz | Confident Scholar Transport</title>
+    
+    <!-- Fonts (Redesigned for UberMove/Inter feel) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Phosphor) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Map (Leaflet) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app-root">
+        
+        <!-- SPLASH SCREEN (Hero Style) -->
+        <section id="screen-splash" class="screen dark-theme">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px 32px; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 80%);">
+                <div style="margin-bottom: 32px;">
+                    <i class="ph-fill ph-bus" style="font-size: 48px; color: var(--accent); margin-bottom: 24px;"></i>
+                    <h1 style="font-size: 52px; margin-bottom: 12px;">RideKidz</h1>
+                    <p style="font-size: 20px; color: var(--gray-muted); font-weight: 500;">Safe, reliable scholar transport. Move with confidence.</p>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="btn btn-primary" style="padding: 18px;" onclick="app.router.go('register')">Get Started</button>
+                    <button class="btn btn-outline" style="background: transparent; border-color: white; color: white;" onclick="app.router.go('tracking')">Demo Tracking View</button>
+                </div>
+            </div>
+            <!-- Optional illustration background would go here -->
+        </section>
+
+        <!-- REGISTRATION SCREEN (Clean Card Style) -->
+        <section id="screen-register" class="screen hidden">
+            <!-- Header -->
+            <div style="padding: 40px 32px 24px;">
+                <h2 style="font-size: 36px; margin-bottom: 8px;">Parent Account</h2>
+                <p style="color: var(--gray-text); font-weight: 500;">Join the community. Let's get your child home safe.</p>
+            </div>
+
+            <!-- Steps Dots -->
+            <div id="reg-steps" style="display: flex; padding: 0 32px; gap: 8px; margin-bottom: 32px;">
+                <div class="step-dot active" data-step="1"></div>
+                <div class="step-dot" data-step="2"></div>
+                <div class="step-dot" data-step="3"></div>
+            </div>
+
+            <!-- Form Container -->
+            <div style="flex: 1; padding: 0 32px 40px;">
+                
+                <!-- Step 1: Parent -->
+                <div id="reg-step-1" class="reg-step-content animate-slide-up">
+                    <h3 style="font-size: 24px; margin-bottom: 24px;">Personal Details</h3>
+                    <div class="input-group">
+                        <label class="input-label">Full Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="input-field" placeholder="First and last name">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email Address</label>
+                        <div class="input-wrapper">
+                            <input type="email" class="input-field" placeholder="name@example.com">
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 40px;">
+                        <label class="input-label">Phone Number</label>
+                        <div class="input-wrapper">
+                            <input type="tel" class="input-field" placeholder="+27 00 000 0000">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; border-radius: var(--radius-pill);" onclick="app.registration.nextStep()">Continue</button>
+                </div>
+
+                <!-- Step 2: Child -->
+                <div id="reg-step-2" class="reg-step-content hidden animate-slide-up">
+                     <h3 style="font-size: 24px; margin-bottom: 24px;">Child's Information</h3>
+                     <div class="input-group">
+                        <label class="input-label">Full Name</label>
+                        <input type="text" class="input-field" placeholder="Liam Doe">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">School</label>
+                        <input type="text" class="input-field" placeholder="Greenfield Primary">
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 40px;">
+                        <button class="btn btn-chip" style="flex: 1;" onclick="app.registration.prevStep()">Back</button>
+                        <button class="btn btn-primary" style="flex: 2;" onclick="app.registration.nextStep()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Location -->
+                <div id="reg-step-3" class="reg-step-content hidden animate-slide-up">
+                    <h3 style="font-size: 24px; margin-bottom: 24px;">Pickup Address</h3>
+                    <div class="card" style="padding: 32px; text-align: center; border: 1px solid #eee; box-shadow: none; cursor: pointer; margin-bottom: 32px;">
+                        <i class="ph ph-map-pin" style="font-size: 40px; color: var(--black); margin-bottom: 12px;"></i>
+                        <p style="font-weight: 700;">Set pickup location</p>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; background-color: var(--green);" onclick="app.router.go('tracking')">Join RideKidz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRACKING SCREEN (Full Uber Flow) -->
+        <section id="screen-tracking" class="screen hidden">
+            <!-- Full Map background -->
+            <div id="map-container" style="position: absolute; inset: 0; z-index: 1;"></div>
+            
+            <!-- Floating Notifications -->
+            <div id="notification-container"></div>
+
+            <!-- Floating Top UI -->
+            <div style="position: absolute; top: 20px; left: 20px; right: 20px; z-index: 10; pointer-events: none;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <button class="icon-btn" style="pointer-events: auto;" onclick="app.router.go('splash')">
+                        <i class="ph-bold ph-arrow-left"></i>
+                    </button>
+                    
+                    <div class="pill-toggle" style="pointer-events: auto; background: white; box-shadow: var(--shadow-floating);">
+                        <button id="btn-am" class="active" onclick="app.tracking.switchTrip('morning')">
+                            <i class="ph-bold ph-sun"></i> Morning
+                        </button>
+                        <button id="btn-pm" onclick="app.tracking.switchTrip('afternoon')">
+                            <i class="ph-bold ph-moon"></i> Afternoon
+                        </button>
+                    </div>
+                    
+                    <button class="icon-btn" style="pointer-events: auto; background: var(--black); color: white;" onclick="app.router.go('driver')">
+                        <i class="ph-fill ph-steering-wheel"></i>
+                    </button>
+                </div>
+
+                <!-- Live Tracking Banner -->
+                <div class="floating-card animate-slide-up" style="margin-top: 16px; border-left: 6px solid var(--accent); border-radius: 12px; pointer-events: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--accent);">Live Status</p>
+                            <p id="status-text" style="font-size: 16px; font-weight: 800; color: var(--black);">Driver is 2 stops away</p>
+                        </div>
+                        <div style="text-align: right; background: var(--gray-bg); padding: 8px 12px; border-radius: 8px;">
+                            <p style="font-size: 10px; font-weight: 700; color: var(--gray-text);">ETA</p>
+                            <p style="font-size: 18px; font-weight: 800;">07:15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAB: Security & Actions -->
+            <div class="fab-container" style="bottom: 160px;">
+                <div id="fab-menu" class="fab-menu">
+                    <div class="fab-item"><i class="ph ph-phone"></i> Call Driver</div>
+                    <div class="fab-item"><i class="ph ph-calendar-blank"></i> Mark Absent</div>
+                    <div class="fab-item" style="color: #ef4444;"><i class="ph ph-warning-circle"></i> Help</div>
+                </div>
+                <button class="icon-btn" style="width: 56px; height: 56px; background: var(--black); color: white; font-size: 24px;" onclick="app.tracking.toggleFab()">
+                    <i id="fab-icon" class="ph-bold ph-plus"></i>
+                </button>
+            </div>
+
+            <!-- Bottom Sheet -->
+            <div id="bottom-sheet" class="bottom-sheet" style="transform: translateY(calc(100% - 140px));">
+                <div class="sheet-handle" onclick="app.tracking.toggleSheet()"></div>
+                
+                <div class="sheet-content">
+                    <!-- Security Card -->
+                    <div class="card" style="padding: 20px; box-shadow: none; border: 1.5px solid var(--gray-chip); margin-bottom: 24px; display: flex; align-items: center; gap: 16px;">
+                        <div style="width: 56px; height: 56px; border-radius: 16px; background: var(--gray-bg); display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                            <i class="ph-fill ph-user-focus" style="color: var(--purple);"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="font-weight: 800; font-size: 18px;">Zara Nkosi</p>
+                            <div id="scan-status-badge" class="status-badge status-waiting" style="background: #fbf2e9; color: #9a3412;">
+                                <i class="ph-fill ph-clock"></i> Waiting for Pickup
+                            </div>
+                        </div>
+                        <i id="scan-check-icon" class="ph-fill ph-seal-warning" style="font-size: 32px; color: #f59e0b;"></i>
+                    </div>
+
+                    <!-- Driver Card -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; background: #eee;">
+                                <i class="ph-fill ph-user" style="font-size: 32px; color: #bbb; display: flex; height: 100%; align-items: center; justify-content: center;"></i>
+                            </div>
+                            <div>
+                                <p style="font-weight: 800; font-size: 16px;">Mr. Sipho Ndlovu</p>
+                                <p style="font-size: 13px; color: var(--gray-text); font-weight: 500;">Toyota Quantum • GP 42 RK</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="icon-btn" style="box-shadow: none; background: var(--gray-bg);"><i class="ph-fill ph-phone"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Route Details -->
+                    <button class="btn btn-chip" style="width: 100%; justify-content: space-between; font-weight: 700; border-radius: 12px; padding: 16px;" onclick="app.tracking.toggleStops()">
+                        <span>Route Details (6 Stops)</span>
+                        <i id="stops-arrow" class="ph ph-caret-down"></i>
+                    </button>
+                    
+                    <div id="stops-list" class="hidden-stops">
+                        <!-- Injected -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DRIVER SCREEN (Uber Driver Flow) -->
+        <section id="screen-driver" class="screen hidden">
+            <div id="driver-map-container" style="position: absolute; inset: 0; z-index: 1;"></div>
+
+            <div style="position: absolute; top: 20px; left: 20px; right: 20px; z-index: 10; pointer-events: none;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <button class="icon-btn" style="pointer-events: auto; background: var(--black); color: white;" onclick="app.router.go('splash')">
+                        <i class="ph-bold ph-steering-wheel"></i>
+                    </button>
+                    <button class="btn btn-primary" style="pointer-events: auto; background: white; color: black; box-shadow: var(--shadow-floating);" onclick="app.router.go('tracking')">
+                        Parent View
+                    </button>
+                </div>
+
+                <!-- Navigation Action -->
+                <div class="floating-card" style="margin-top: 16px; background: var(--black); color: white; border-radius: 16px; pointer-events: auto; border-left: 6px solid var(--green);">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <i class="ph-bold ph-navigation-arrow" style="font-size: 24px; color: var(--green);"></i>
+                        <div style="flex: 1;">
+                            <p style="font-size: 10px; font-weight: 800; color: var(--green); text-transform: uppercase;">Upcoming Pickup</p>
+                            <p id="nav-next-name" style="font-size: 18px; font-weight: 800;">Zara Nkosi</p>
+                            <p id="nav-next-address" style="font-size: 13px; color: var(--gray-muted);">45 Elm Avenue, Sandton</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Driver Bottom Sheet -->
+            <div id="driver-bottom-sheet" class="bottom-sheet" style="transform: translateY(calc(100% - 140px));">
+                <div class="sheet-handle" onclick="app.driver.toggleSheet()"></div>
+                <div class="sheet-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2 style="font-size: 26px;">Morning Run</h2>
+                        <button class="btn btn-outline" style="border-radius: 12px; border-color: #eee;" onclick="app.router.go('splash')">End</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;">
+                        <div class="card" style="padding: 16px; box-shadow: none; border: 1.5px solid #eee;">
+                            <p style="font-size: 10px; font-weight: 800; color: var(--gray-text);">PICKED UP</p>
+                            <p id="driver-stat-onboard" style="font-size: 24px; font-weight: 800;">3/6</p>
+                        </div>
+                        <div class="card" style="padding: 16px; box-shadow: none; border: 1.5px solid #eee;">
+                            <p style="font-size: 10px; font-weight: 800; color: var(--gray-text);">REMAINING</p>
+                            <p id="driver-stat-remaining" style="font-size: 24px; font-weight: 800;">3 Stops</p>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 12px; font-weight: 800; color: var(--gray-text); text-transform: uppercase; margin-bottom: 16px;">Attendance List</h3>
+                    <div id="driver-run-list" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Injected -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARY MODAL (Confident Minimalist) -->
+        <div id="summary-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; padding: 20px;">
+             <div class="animate-slide-up" style="background: white; width: 100%; border-radius: 24px; padding: 48px 32px; text-align: center;">
+                <div style="width: 80px; height: 80px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; color: #fff; font-size: 40px;">
+                    <i class="ph-bold ph-check"></i>
+                </div>
+                <h2 style="font-size: 32px; margin-bottom: 8px;">Safe at Home!</h2>
+                <p style="color: var(--gray-text); font-weight: 500; font-size: 18px;">Zara confirmed dropped off</p>
+                
+                <div style="background: var(--gray-bg); border-radius: 12px; padding: 24px; margin: 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div style="text-align: left;">
+                        <p style="font-size: 11px; font-weight: 800; color: var(--gray-text);">TIME</p>
+                        <p style="font-size: 20px; font-weight: 700;">14:38</p>
+                    </div>
+                    <div style="text-align: left;">
+                        <p style="font-size: 11px; font-weight: 800; color: var(--gray-text);">STOPS</p>
+                        <p style="font-size: 20px; font-weight: 700;">5 Stops</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; font-size: 18px;" onclick="app.router.go('splash')">Done</button>
+             </div>
+        </div>
+
+    </div>
+
+    <!-- Redesigned JS -->
+    <script src="app.js"></script>
+</body>
+</html>
