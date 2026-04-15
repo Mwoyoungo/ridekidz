@@ -2,11 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Brand Colors (Preserved as requested) */
-    --accent: #ff6b35; 
-    --purple: #6c4ef2; 
-    --yellow: #ffd60a; 
-    --green: #22c55e;  
+    /* Brand Colors (Matched to nice.png) */
+    --accent: #ff8c00;  /* Warm Orange from car body */
+    --green: #2ecc71;   /* Hat/Glove Forest Green */
+    --yellow: #f1c40f;  /* Arms/Sides Sun Yellow */
+    --brand-dark: #1a1a1a; /* Eye/Wheel Deep Grey */
     
     /* Uber Palette Foundations */
     --black: #000000;
@@ -93,7 +93,7 @@ h1, h2, h3 {
 }
 
 .btn-secondary {
-    background-color: var(--purple);
+    background-color: var(--green);
     color: var(--white);
 }
 
